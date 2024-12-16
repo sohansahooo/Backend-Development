@@ -1,0 +1,11 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"1.395\"}","timestamp":"2024-12-16T06:33:40.044Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"0.515\"}","timestamp":"2024-12-16T06:33:44.380Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"0.448\"}","timestamp":"2024-12-16T06:33:47.892Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"1.273\"}","timestamp":"2024-12-16T06:35:16.047Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"0.188\"}","timestamp":"2024-12-16T06:35:16.505Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"0.134\"}","timestamp":"2024-12-16T06:35:17.218Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/products\",\"status\":\"200\",\"responseTime\":\"0.293\"}","timestamp":"2024-12-16T06:35:24.457Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"A post request is made to add a new product","timestamp":"2024-12-16T06:38:10.359Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"3.216\"}","timestamp":"2024-12-16T06:38:10.362Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"A post request is made to add a new product","timestamp":"2024-12-16T06:39:06.529Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/products\",\"status\":\"201\",\"responseTime\":\"2.850\"}","timestamp":"2024-12-16T06:39:06.533Z"}
