@@ -1,7 +1,7 @@
 {
   "name": "vidtube",
   "version": "1.0.0",
-  "description": "A project to understand of backend",
+  "description": "A project to understand backend",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
