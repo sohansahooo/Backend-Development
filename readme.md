@@ -132,8 +132,52 @@ or
 ├── package.json                      # Project metadata and dependencies
 └── README.md                         # Project documentation
 
-
-
-
-
+Client Request
+     │
+     ▼
+┌───────────────────────┐
+| Server Initialization | (app.js / server.js)
+└───────────────────────┘
+     │
+     ▼
+┌─────────┐
+| Routing |(routes)
+└─────────┘
+     │
+     ├──────────────────────────────────────────────────┐
+     ▼                                                  ▼
+┌────────────┐                            ┌────────────────────────────┐
+| Middleware |                            | Authentication Middleware  | (e.g., JWT)
+└────────────┘                            └────────────────────────────┘
+(auth.js, logger.js, errorHandler.js)                   |
+     │                                                  │
+     ▼                                                  ▼
+┌────────────┐                                 ┌───────────────────────┐
+| Controller |   ────────────────────────────► | Validation Middleware | (e.g., Joi)
+└────────────┘                                 └───────────────────────┘
+(authControllers, userControllers, commonControllers)    |
+     │                                                   │
+     ▼                                                   ▼
+┌────────────────┐                            ┌────────────────────────┐
+| Business Logic |                            | Additional Middlewares | (e.g., logging)
+└────────────────┘                            └────────────────────────┘
+(authServices, userServices, commonServices)
+     │
+     ▼
+┌───────────────┐
+| Service Layer | (optional for external API or complex business logic)
+└───────────────┘
+     │
+     ▼
+┌─────────────┐
+| Model Layer | (authModels, userModels, db models)
+└─────────────┘
+     │
+     ▼
+┌──────────────────────┐
+| Response Preparation |
+└──────────────────────┘
+     │
+     ▼
+Response to Client
 ```
