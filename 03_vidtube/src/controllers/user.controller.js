@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary, deleteOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -13,13 +14,13 @@ const generateAccessAndRefreshToken = async (userId) => {
       throw new ApiError(404, "User not found");
     }
 
-    const AccessToken = user.generateAccessToken();
-    const RefreshToken = user.generateRefreshToken();
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
-    user.refreshToken = RefreshToken;
+    user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
-    return { AccessToken, RefreshToken };
+    return { accessToken, refreshToken };
   } catch (error) {
     throw new ApiError(500, "Something went wrong while generating tokens");
   }
@@ -118,6 +119,10 @@ const loginUser = asyncHandler(async (req, res) => {
   // get data from request body
   const { email, username, password } = req.body;
 
+  // Logging for debugging
+  console.log(`Login user ${req.headers}`);
+  console.log("Login user", req.body);
+
   // validation
   if (!email) {
     throw new ApiError(400, "Email is required");
@@ -139,7 +144,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // generate access and refresh token
-  const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
 
@@ -147,19 +152,19 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
-  const optins = {
+  const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
   };
 
   return res
-    .satus(200)
-    .cookie("AccessToken", AccessToken, optins)
-    .cookie("RefreshToken", RefreshToken, optins)
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(
         200,
-        { user: loggedInUser, AccessToken, refreshToken },
+        { user: loggedInUser, accessToken, refreshToken },
         "User logged in successfully"
       )
     );
@@ -183,8 +188,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .clearCookie("AccessToken", options)
-    .clearCookie("RefreshToken", options)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
@@ -221,8 +226,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .cookie("AccessToken", accessToken, options)
-      .cookie("RefreshToken", newRefreshToken, options)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
       .json(
         new ApiResponse(
           200,
@@ -442,27 +447,33 @@ const getWatchHistory = asyncHandler(async (req, res) => {
                     _id: 1,
                     username: 1,
                     fullname: 1,
-                    avatar: 1
-                  }
-                }
-              ]
-            }
+                    avatar: 1,
+                  },
+                },
+              ],
+            },
           },
           {
             $addFields: {
               owner: {
-                $first: "$owner"
-              }
-            }
-          }
-        ]
-      }
-    }
-  ])
+                $first: "$owner",
+              },
+            },
+          },
+        ],
+      },
+    },
+  ]);
 
   return res
     .status(200)
-    .json(new ApiResponse(200, user[0]?.watchHistory, "Watch history fetched successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        user[0]?.watchHistory,
+        "Watch history fetched successfully"
+      )
+    );
 });
 
 export {
@@ -476,5 +487,5 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
-  getWatchHistory
+  getWatchHistory,
 };
